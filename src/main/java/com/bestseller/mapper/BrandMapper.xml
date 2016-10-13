@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bestseller.mapper.BrandMapper" >
+	<resultMap type="Brand" id="brandType">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="description" property="description"/>
+		<result column="img_url" property="imgUrl"/>
+		<result column="sort" property="sort"/>
+		<result column="is_display" property="isDisplay"/>
+	</resultMap>
+	
+	<!-- 查询的字段 -->
+	<sql id="brandSelect">
+	select
+		<if test="fields!=null">
+			${fields}
+		</if>
+		<if test="fields==null">
+			id,name,description,img_url,sort,is_display
+		</if>
+	from bbs_brand
+	</sql>
+	<!-- 查询条件 -->
+	<sql id="brandWhere">
+		<where>
+			<if test="isDisplay != null">
+				is_display = #{isDisplay}
+			</if>
+			<if test="name != null">
+				<if test="nameLike==false">
+				and name=#{name}
+				</if>
+				<if test="nameLike==true">
+				and name like "%"#{name}"%"
+				</if>
+			</if>
+		</where>
+	</sql>
+	
+	<!-- 排序 -->
+	<sql id="brandOrderBy">
+		<if test="orderByFileds!=null and orderByFileds.size>0">
+			order by
+			<foreach collection="orderByFileds" item="orderByFiled" separator=",">
+			${orderByFiled.field} ${orderByFiled.order}
+			</foreach>
+		</if>
+	</sql>
+	
+	<!-- 分页查询 -->
+	<sql id="brandLimit">
+		<if test="startRow!=null">
+			limit #{startRow},#{pageSize}
+		</if>
+	</sql>
+	
+	<select id="getBrandListByQuery" parameterType="BrandQuery" resultMap="brandType">
+		<include refid="brandSelect"/>
+		<include refid="brandWhere"/>
+		<include refid="brandOrderBy"/>
+		<include refid="brandLimit"/>
+	</select>
+	
+	
+	<select id="getBrandList" parameterType="Brand" resultMap="brandType">
+		select * from bbs_brand
+		<where>
+			<if test="isDisplay != null">
+				is_display = #{isDisplay}
+			</if>
+			<if test="name != null">
+				and name = #{name}
+			</if>
+		</where>
+		order by id desc
+		limit #{startRow},#{pageSize}
+	</select>
+	
+	<select id="getBrandById" parameterType="Integer" resultMap="brandType">
+		select * from bbs_brand where id=#{id};
+	</select>
+	
+
+	<select id="getBrandCount" parameterType="Brand" resultType="Integer">
+		select count(1) from bbs_brand
+		<where>
+			<if test="name!=null">
+				name=#{name}
+			</if>
+			<if test="isDisplay!=null">
+				and is_display=#{isDisplay}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="addBrand" parameterType="Brand">
+		insert into bbs_brand
+		<trim prefix="(" suffix=")">
+			name,
+			description,
+			img_url,
+			sort,
+			is_display
+		</trim>
+		values
+		<trim prefix="(" suffix=")">
+			#{name},
+			#{description},
+			#{imgUrl},
+			#{sort},
+			#{isDisplay}
+		</trim>
+	</insert>
+	
+	<update id="deleteBrand" parameterType="Integer">
+		update bbs_brand
+		<set>
+			is_display=0
+		</set>
+		where id=#{id}
+	</update>
+	
+	<delete id="batchDeleteBrand" parameterType="Integer">
+		delete from bbs_brand where id in
+		<foreach collection="array" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<update id="updateBrand" parameterType="Brand">
+		update bbs_brand
+		<set>
+			<if test="name!=null">
+				name=#{name},
+			</if>
+			<if test="description!=null">
+				description=#{description},
+			</if>
+			<if test="imgUrl!=null">
+				img_url=#{imgUrl},
+			</if>
+			<if test="sort!=null">
+				sort=#{sort},
+			</if>
+			<if test="isDisplay!=null">
+				is_display=#{isDisplay}
+			</if>
+		</set>
+	<where>
+		id=#{id}
+	</where>
+	</update>
+	
+	
+</mapper>
