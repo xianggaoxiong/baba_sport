@@ -17,7 +17,12 @@ public class Img implements Serializable {
 	private Integer productId;
 	private String url;
 	private Integer isDef;
-
+	
+	public String getImgAllUrl(){
+		return "http://localhost:8088/image-web/"+this.url;
+	}
+	
+	
 	public Integer getId() {
 		return id;
 	}

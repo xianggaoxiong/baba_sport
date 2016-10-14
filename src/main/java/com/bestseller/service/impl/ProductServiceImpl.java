@@ -15,6 +15,7 @@ import com.bestseller.mapper.ProductMapper;
 import com.bestseller.pojo.Img;
 import com.bestseller.pojo.Product;
 import com.bestseller.pojo.Sku;
+import com.bestseller.pojo.query.ImgQuery;
 import com.bestseller.pojo.query.ProductQuery;
 import com.bestseller.service.ImgService;
 import com.bestseller.service.ProductService;
@@ -119,6 +120,13 @@ public class ProductServiceImpl implements ProductService {
 	public Pagination getProductListWithPage(ProductQuery productQuery) {
 		Pagination p = new Pagination(productQuery.getPageNo(),productQuery.getPageSize(),productDao.getProductListCount(productQuery));
 		List<Product> products = productDao.getProductListWithPage(productQuery);
+		for (Product product : products) {
+			ImgQuery imgQuery=new ImgQuery();
+			imgQuery.setProductId(product.getId());
+			imgQuery.setIsDef(1);
+			List<Img> imgList = imgService.getImgList(imgQuery);
+			product.setImg(imgList.get(0));
+		}
 		p.setList(products);
 		return p;
 	}

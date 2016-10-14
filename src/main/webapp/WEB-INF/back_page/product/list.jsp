@@ -73,7 +73,7 @@ function changePageNo(){
 			<td><input type="checkbox" name="ids" value="73"/></td>
 			<td>${product.no }</td>
 			<td align="center">${product.name }</td>
-			<td align="center"><img width="50" height="50" src="/res/img/pic/ppp0.jpg"/></td>
+			<td align="center"><img width="50" height="50" src="${product.img.imgAllUrl }"/></td>
 			<td align="center">${product.isNew }</td>
 			<td align="center">${product.isHot }</td>
 			<td align="center">是</td>
