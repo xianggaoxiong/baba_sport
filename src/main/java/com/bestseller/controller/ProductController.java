@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bestseller.pojo.Brand;
@@ -120,6 +121,38 @@ public class ProductController {
 	public String addProduct(Product product,Img img){
 		product.setImg(img);
 		productService.addProduct(product);
+		return "redirect:/back/product/list.do";
+	}
+	
+	//上架
+	@RequestMapping("/product/isShow.do")
+	public String isShow(Integer[] ids,Integer pageNo,Integer brandId,String name,Integer isShow,ModelMap model){
+		//实例化商品
+		Product product=new Product();
+		product.setIsShow(1);
+		if(ids!=null&&ids.length>0){
+			for(Integer id:ids){
+				product.setId(id);
+				productService.updateProductByKey(product);
+			}
+		}
+		//TODO 静态化
+		
+		
+		//判断
+		if(pageNo!=null){
+			model.put("pageNo", pageNo);
+		}
+		if(brandId!=null){
+			model.put("brandId", brandId);
+		}
+		if(StringUtils.isNotBlank(name)){
+			model.put("name", name);
+		}
+		if(null!=isShow){
+			model.put("isShow", isShow);
+		}
+		
 		return "redirect:/back/product/list.do";
 	}
 }

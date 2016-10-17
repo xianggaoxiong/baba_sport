@@ -46,10 +46,23 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>classpath:spring/springMVC.xml</param-value>
 		</init-param>
-		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>springDispatcherServlet</servlet-name>
 		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 加载前台springMVC容器 -->
+	<servlet>
+		<servlet-name>front_springMVC</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring/springMVC_front.xml</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>front_springMVC</servlet-name>
+		<url-pattern>*.shtml</url-pattern>
 	</servlet-mapping>
 </web-app>

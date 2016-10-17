@@ -6,20 +6,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <title>babasport-list</title>
 <script type="text/javascript">
-function getTableForm() {
-	return document.getElementById('tableForm');
-}
-function optDelete() {
+function isShow(pageNo,brandId,name,isShow) {
 	if(Pn.checkedCount('ids')<=0) {
 		alert("请至少选择一个!");
 		return;
 	}
-	if(!confirm("确定删除吗?")) {
+	if(!confirm("确定上架吗?")) {
 		return;
 	}
-	var f = getTableForm();
-	f.action="o_delete.do";
-	f.submit();
+	$("#jvForm").attr("action","/back/product/isShow.do?pageNo="+pageNo+"&brandId="+brandId+"&name="+name+"&isShow="+isShow);
+	$("#jvForm").submit();
 }
 function changePageNo(){
 	$("input[name='pageNo']").val(1);
@@ -50,7 +46,7 @@ function changePageNo(){
 	</select>
 	<input type="submit" class="query" value="查询"/>
 </form>
-<form method="post" id="tableForm">
+<form method="post" id="jvForm">
 <input type="hidden" value="" name="pageNo"/>
 <input type="hidden" value="" name="queryName"/>
 <table cellspacing="1" cellpadding="0" width="100%" border="0" class="pn-ltable">
@@ -70,7 +66,7 @@ function changePageNo(){
 	<tbody class="pn-ltbody">
 	<c:forEach items="${pagination.list }" var="product">
 		<tr bgcolor="#ffffff" onmouseover="this.bgColor='#eeeeee'" onmouseout="this.bgColor='#ffffff'">
-			<td><input type="checkbox" name="ids" value="73"/></td>
+			<td><input type="checkbox" name="ids" value="${product.id }"/></td>
 			<td>${product.no }</td>
 			<td align="center">${product.name }</td>
 			<td align="center"><img width="50" height="50" src="${product.img.imgAllUrl }"/></td>
@@ -94,7 +90,9 @@ function changePageNo(){
 	</c:forEach>
 </span></div>
 
-<div style="margin-top:15px;"><input class="del-button" type="button" value="删除" onclick="optDelete();"/><input class="add" type="button" value="上架" onclick="optDelete();"/><input class="del-button" type="button" value="下架" onclick="optDelete();"/></div>
+<div style="margin-top:15px;"><input class="del-button" type="button" value="删除" onclick="optDelete();"/>
+<input class="add" type="button" value="上架" onclick="isShow('${pagination.pageNo }','${name }','${brandId }','${isShow }');"/>
+<input class="del-button" type="button" value="下架" onclick="optDelete();"/></div>
 </form>
 </div>
 </body>
