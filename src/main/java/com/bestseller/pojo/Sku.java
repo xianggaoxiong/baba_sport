@@ -35,7 +35,13 @@ public class Sku implements Serializable {
 	private Integer lastStatus;
 	private Integer skuType;
 	private Integer sales;
-
+	private Color color;
+	public Color getColor() {
+		return color;
+	}
+	public void setColor(Color color) {
+		this.color = color;
+	}
 	public Integer getId() {
 		return id;
 	}

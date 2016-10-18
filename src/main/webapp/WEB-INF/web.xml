@@ -21,6 +21,24 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	<!-- 页面缓存 -->
+	<!-- <filter>
+	    <filter-name>CacheFilter</filter-name>
+	    <filter-class>com.opensymphony.oscache.web.filter.CacheFilter</filter-class>
+	    <init-param>
+	        <param-name>time</param-name>
+	        <param-value>7200</param-value>
+	    </init-param>
+	    <init-param>
+	        <param-name>scope</param-name>
+	        <param-value>application</param-value>
+	    </init-param>
+	</filter>
+	<filter-mapping>
+	    <filter-name>CacheFilter</filter-name>
+	    <url-pattern>/front/product/*</url-pattern>
+	</filter-mapping> -->
+	
 	<!-- 解决post乱码 -->
 	<filter>
 		<filter-name>CharacterEncodingFilter</filter-name>

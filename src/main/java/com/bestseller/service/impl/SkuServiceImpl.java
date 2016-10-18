@@ -4,12 +4,15 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bestseller.mapper.SkuMapper;
+import com.bestseller.pojo.Color;
 import com.bestseller.pojo.Sku;
 import com.bestseller.pojo.query.SkuQuery;
+import com.bestseller.service.ColorService;
 import com.bestseller.service.SkuService;
 
 import cn.itcast.common.page.Pagination;
@@ -25,6 +28,8 @@ public class SkuServiceImpl implements SkuService {
 
 	@Resource
 	SkuMapper skuDao;
+	@Autowired
+	private ColorService colorService;
 
 	/**
 	 * 插入数据库
@@ -79,6 +84,11 @@ public class SkuServiceImpl implements SkuService {
 	
 	@Transactional(readOnly = true)
 	public List<Sku> getSkuList(SkuQuery skuQuery) {
-		return skuDao.getSkuList(skuQuery);
+		List<Sku> skuList = skuDao.getSkuList(skuQuery);
+		for(Sku sku:skuList){
+			Color color = colorService.getColorByKey(sku.getColorId());
+			sku.setColor(color);
+		}
+		return skuList;
 	}
 }
