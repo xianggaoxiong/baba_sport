@@ -328,10 +328,10 @@ function login(){
 				<ul class="uls i_150x150 x4_150x150b">
 				<c:forEach items="${pagination.list }" var="product">
 					<li>
-						<a href="productDetail.jsp" title="${product.name }" target="_blank" class="pic"><img src="${product.img.imgAllUrl }" alt="${product.name }" /></a>
+						<a href="javascript:void(0)" onclick="window.open('/front/product/detail.shtml?productId=${product.id}')" title="${product.name }"  class="pic"><img src="${product.img.imgAllUrl }" alt="${product.name }" /></a>
 						<dl>
 							<!-- dt 10个文字+... -->
-							<dt><a href="productDetail.jsp" title="${product.name }" target="_blank">${product.name }</a></dt>
+							<dt><a href="javascript:void(0)" onclick="window.open('/front/product/detail.shtml?productId=${product.id}')" title="${product.name }">${product.name }</a></dt>
 							<!-- dt 25个文字+... -->
 							<dd class="h40">${product.name }</dd>
 							<dd class="orange">￥128.00</dd>

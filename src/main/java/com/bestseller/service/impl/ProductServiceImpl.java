@@ -86,7 +86,13 @@ public class ProductServiceImpl implements ProductService {
 	 */
 	@Transactional(readOnly = true)
 	public Product getProductByKey(Integer id) {
-		return productDao.getProductByKey(id);
+		Product product = productDao.getProductByKey(id);
+		ImgQuery imgQuery=new ImgQuery();
+		imgQuery.setProductId(product.getId());
+		imgQuery.setIsDef(1);
+		List<Img> imgList = imgService.getImgList(imgQuery);
+		product.setImg(imgList.get(0));
+		return product;
 	}
 	
 	@Transactional(readOnly = true)

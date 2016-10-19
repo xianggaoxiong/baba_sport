@@ -1,5 +1,6 @@
 package com.bestseller.controller.front;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,20 +12,26 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bestseller.pojo.Brand;
+import com.bestseller.pojo.Color;
 import com.bestseller.pojo.Feature;
+import com.bestseller.pojo.Product;
+import com.bestseller.pojo.Sku;
 import com.bestseller.pojo.Type;
 import com.bestseller.pojo.query.BrandQuery;
 import com.bestseller.pojo.query.FeatureQuery;
 import com.bestseller.pojo.query.ProductQuery;
+import com.bestseller.pojo.query.SkuQuery;
 import com.bestseller.pojo.query.TypeQuery;
 import com.bestseller.service.BrandService;
 import com.bestseller.service.FeatureService;
 import com.bestseller.service.ProductService;
+import com.bestseller.service.SkuService;
 import com.bestseller.service.TypeService;
 
 import cn.itcast.common.page.Pagination;
 
 @Controller
+@RequestMapping("/front")
 public class FrontProductController {
 	@Autowired
 	private BrandService brandService;
@@ -34,8 +41,10 @@ public class FrontProductController {
 	private FeatureService featureService;
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private SkuService skuService;
 	
-	@RequestMapping("/front/product/list.shtml")
+	@RequestMapping("/product/list.shtml")
 	public String showIndex(Integer pageNo,Integer brandId,String brandName,Integer typeId,String typeName,ModelMap model){
 		//分页查询
 		StringBuilder params=new StringBuilder();
@@ -93,5 +102,30 @@ public class FrontProductController {
 		model.put("pagination", pagination);
 		
 		return "product/product";
+	}
+	
+	//商品详情页
+	@RequestMapping("/product/detail.shtml")
+	public String showProductDetail(Integer productId,ModelMap model){
+		Product product = productService.getProductByKey(productId);
+		model.put("product", product);
+		SkuQuery skuQuery=new SkuQuery();
+		skuQuery.setProductId(productId);
+		List<Sku> skus = skuService.getSkuList(skuQuery);
+		model.put("skus", skus);
+		List<Color> colors=new ArrayList<>();
+		for(Sku sku:skus){
+			colors.add(sku.getColor());
+		}
+		for(int i=0;i<colors.size()-1;i++){
+			for(int j=colors.size()-1;j>i;j--){
+				if(colors.get(i).getId().equals(colors.get(j).getId())){
+					colors.remove(j);
+				}
+			}
+		}
+		model.put("colors", colors);
+		
+		return "product/productDetail";
 	}
 }

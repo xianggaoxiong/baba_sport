@@ -142,29 +142,27 @@ function buy(){
 <div class="w ofc mt">
 	<div class="l">
 		<div class="showPro">
-			<div class="big"><a id="showImg" class="cloud-zoom" href="/res/img/pic/ppp0.jpg" rel="adjustX:10,adjustY:-1"><img alt="" src="/res/img/pic/ppp0.jpg"></a></div>
+			<div class="big"><a id="showImg" class="cloud-zoom" href="${product.img.imgAllUrl }" rel="adjustX:10,adjustY:-1"><img alt="" src="${product.img.imgAllUrl }"></a></div>
 		</div>
 	</div>
 	<div class="r" style="width: 640px">
 		<ul class="uls form">
-			<li><h2>依琦莲2014瑜伽服套装新款 瑜珈健身服三件套 广场舞蹈服装 性价比最高的瑜伽服 三件套 送胸垫 支持货到付款</h2></li>
+			<li><h2>${product.name }</h2></li>
 			<li><label>巴  巴 价：</label><span class="word"><b class="f14 red mr">￥128.00</b>(市场价:<del>￥150.00</del>)</span></li>
 			<li><label>商品评价：</label><span class="word"><span class="val_no val3d4" title="4分">4分</span><var class="blue">(已有888人评价)</var></span></li>
 			<li><label>运　　费：</label><span class="word">10元</span></li>
 			<li><label>库　　存：</label><span class="word" id="stockInventory">100</span><span class="word" >件</span></li>
 			<li><label>选择颜色：</label>
 				<div id="colors" class="pre spec">
-					<a onclick="colorToRed(this,9)" href="javascript:void(0)" title="西瓜红" class="changToRed"><img width="25" height="25" data-img="1" src="/res/img/pic/ppp00.jpg" alt="西瓜红 "><i>西瓜红</i></a>
-					<a onclick="colorToRed(this,11)" href="javascript:void(0)" title="墨绿" class="changToWhite"><img width="25" height="25" data-img="1" src="/res/img/pic/ppp00.jpg" alt="墨绿 "><i>墨绿</i></a>
-					<a onclick="colorToRed(this,18)" href="javascript:void(0)" title="浅粉" class="changToWhite"><img width="25" height="25" data-img="1" src="/res/img/pic/ppp00.jpg" alt="浅粉 "><i>浅粉</i></a>
+				<c:forEach items="${colors }" var="color">
+					<a onclick="colorToRed(this,9)" href="javascript:void(0)" title="${color.name }" class="changToRed"><img width="25" height="25" data-img="1" src="/res/img/pic/ppp00.jpg" alt="${color.name } "><i>${color.name }</i></a>
+				</c:forEach>
 				</div>
 			</li>
 			<li id="sizes"><label>尺　　码：</label>
-						<a href="javascript:void(0)" class="not-allow"  id="S">S</a>
-						<a href="javascript:void(0)" class="not-allow"  id="M">M</a>
-						<a href="javascript:void(0)" class="not-allow"  id="L">L</a>
-						<a href="javascript:void(0)" class="not-allow"  id="XL">XL</a>
-						<a href="javascript:void(0)" class="not-allow"  id="XXL">XXL</a>
+			<c:forEach items="${skus }" var="sku">
+				<a href="javascript:void(0)" class="not-allow"  id="S">${sku.size }</a>
+			</c:forEach>
 			</li>
 			<li><label>我 要 买：</label>
 				<a id="sub" class="inb arr" style="border: 1px solid #919191;width: 10px;height: 10px;line-height: 10px;text-align: center;" title="减" href="javascript:void(0);" >-</a>
