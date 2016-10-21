@@ -91,4 +91,14 @@ public class SkuServiceImpl implements SkuService {
 		}
 		return skuList;
 	}
+
+	@Override
+	public List<Sku> getStock(Integer productId) {
+		List<Sku> skuList = skuDao.getStock(productId);
+		for(Sku sku:skuList){
+			Color color = colorService.getColorByKey(sku.getColorId());
+			sku.setColor(color);
+		}
+		return skuList;
+	}
 }

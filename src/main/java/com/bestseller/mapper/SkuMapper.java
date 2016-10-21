@@ -61,5 +61,11 @@ public interface SkuMapper {
 	 * @param skuQuery
 	 */
 	public int getSkuListCount(SkuQuery skuQuery);
+	
+	/**
+	 * 库存大于0的SKU
+	 * @param skuQuery
+	 */
+	public List<Sku> getStock(Integer productId);
 
 }

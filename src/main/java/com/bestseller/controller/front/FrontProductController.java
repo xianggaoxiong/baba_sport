@@ -109,19 +109,12 @@ public class FrontProductController {
 	public String showProductDetail(Integer productId,ModelMap model){
 		Product product = productService.getProductByKey(productId);
 		model.put("product", product);
-		SkuQuery skuQuery=new SkuQuery();
-		skuQuery.setProductId(productId);
-		List<Sku> skus = skuService.getSkuList(skuQuery);
+		List<Sku> skus = skuService.getStock(productId);
 		model.put("skus", skus);
 		List<Color> colors=new ArrayList<>();
 		for(Sku sku:skus){
-			colors.add(sku.getColor());
-		}
-		for(int i=0;i<colors.size()-1;i++){
-			for(int j=colors.size()-1;j>i;j--){
-				if(colors.get(i).getId().equals(colors.get(j).getId())){
-					colors.remove(j);
-				}
+			if(!colors.contains(sku.getColor())){
+				colors.add(sku.getColor());
 			}
 		}
 		model.put("colors", colors);

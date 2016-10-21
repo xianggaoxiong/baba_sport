@@ -394,4 +394,11 @@
 					</if>
 		</trim>
 	</insert>
+	
+	<select id="getStock" resultMap="sku" parameterType="Integer">
+		select
+		id,product_id,color_id,size,delive_fee,sku_price,stock_inventory,sku_upper_limit,location,sku_img,sku_sort,sku_name,market_price,create_time,update_time,create_user_id,update_user_id,last_status,sku_type,sales
+		from bbs_sku
+		where product_id=#{productId} and stock_inventory>0
+	</select>
 </mapper>
