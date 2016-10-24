@@ -44,9 +44,29 @@
 <script type="text/javascript">
 $(function(){
 	$("#colors a:first").trigger("click");
+	$("#sub").click(function(){
+		var num=$("#num").val();
+		num--;
+		if(num==0){
+			return;
+		}
+		$("#num").val(num);
+	});
+	
+	$("#add").click(function(){
+		var num=$("#num").val();
+		num++;
+		if(num>skuLimit){
+			alert("此商品最多能购买"+skuLimit+"件");
+			return;
+		}
+		$("#num").val(num);
+	});
 });
 
 var color;
+var skuLimit;
+var skuId;
 //点击颜色改变
 function colorToRed(tagert,colorId){
 	color=colorId
@@ -68,6 +88,8 @@ function colorToRed(tagert,colorId){
 				$("#marketPrice").html("￥"+'${sku.marketPrice}');
 				$("#freePrice").html("￥"+'${sku.deliveFee}');
 				$("#stockInventory").html("￥"+'${sku.stockInventory}');
+				skuLimit='${sku.skuUpperLimit}';
+				skuId='${sku.id}'
 				
 			}else{
 				$("#"+'${sku.size}').attr("class","changToWhite");
@@ -100,7 +122,8 @@ function sizeToRed(tagert,sizeId){
 			$("#marketPrice").html("￥"+'${sku.marketPrice}');
 			$("#freePrice").html("￥"+'${sku.deliveFee}');
 			$("#stockInventory").html("￥"+'${sku.stockInventory}');
-
+			skuLimit='${sku.skuUpperLimit}';
+			skuId='${sku.id}'
 	}
 	</c:forEach>
 }
