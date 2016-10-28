@@ -1,5 +1,7 @@
 package com.bestseller.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +16,7 @@ import com.bestseller.pojo.Color;
 import com.bestseller.pojo.Feature;
 import com.bestseller.pojo.Img;
 import com.bestseller.pojo.Product;
+import com.bestseller.pojo.Sku;
 import com.bestseller.pojo.Type;
 import com.bestseller.pojo.query.BrandQuery;
 import com.bestseller.pojo.query.ColorQuery;
@@ -24,7 +27,9 @@ import com.bestseller.service.BrandService;
 import com.bestseller.service.ColorService;
 import com.bestseller.service.FeatureService;
 import com.bestseller.service.ProductService;
+import com.bestseller.service.SkuService;
 import com.bestseller.service.TypeService;
+import com.bestseller.service.staticPage.StaticPageService;
 
 import cn.itcast.common.page.Pagination;
 
@@ -41,7 +46,10 @@ public class ProductController {
 	private FeatureService featureService;
 	@Autowired
 	private ColorService colorService;
-	
+	@Autowired
+	private StaticPageService staticPageService;
+	@Autowired
+	private SkuService skuService;
 	@RequestMapping("/product/list.do")
 	public String showList(Integer pageNo,String name,Integer brandId,Integer isShow,Map<String,Object> map){
 		BrandQuery bq=new BrandQuery();
@@ -134,10 +142,24 @@ public class ProductController {
 			for(Integer id:ids){
 				product.setId(id);
 				productService.updateProductByKey(product);
+				
+				
+				Map<String,Object> map=new HashMap<>();
+				Product p = productService.getProductByKey(id);
+				map.put("product", p);
+				List<Sku> skus = skuService.getStock(id);
+				map.put("skus", skus);
+				List<Color> colors=new ArrayList<>();
+				for(Sku sku:skus){
+					if(!colors.contains(sku.getColor())){
+						colors.add(sku.getColor());
+					}
+				}
+				map.put("colors", colors);
+				staticPageService.productStaticized(map, id);
 			}
 		}
 		//TODO 静态化
-		
 		
 		//判断
 		if(pageNo!=null){

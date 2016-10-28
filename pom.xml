@@ -28,9 +28,31 @@
 		<commons-fileupload.version>1.3.1</commons-fileupload.version>
 		<jedis.version>2.7.2</jedis.version>
 		<solrj.version>4.10.3</solrj.version>
-		<springtest>4.3.2.RELEASE</springtest>
+		<springtest>4.1.3.RELEASE</springtest>
+		<freemarker-version>2.3.9</freemarker-version>
 	</properties>
 		<dependencies>
+			<dependency>
+				<groupId>commons-collections</groupId>
+				<artifactId>commons-collections</artifactId>
+				<version>3.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.octo.captcha</groupId>
+				<artifactId>jcaptcha-my</artifactId>
+				<version>1.0</version>
+			</dependency>
+			<dependency>
+			    <groupId>org.springframework</groupId>
+			    <artifactId>spring-context-support</artifactId>
+			    <version>4.1.3.RELEASE</version>
+			</dependency>
+			<!--freemarker-->
+			<dependency>
+				<groupId>freemarker</groupId>
+				<artifactId>freemarker</artifactId>
+				<version>${freemarker-version}</version>
+			</dependency>
 			<!-- 页面缓存 -->
   			<dependency>
 				<groupId>oscache</groupId>

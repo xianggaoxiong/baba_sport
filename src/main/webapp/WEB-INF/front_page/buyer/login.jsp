@@ -33,10 +33,10 @@
 	<div class="l ad420x205"><a href="#" title="title"><img src="/res/img/pic/ppp0.jpg" width="400" height="400"/></a></div>
 	<div class="r">
 		<h2 title="登录新巴巴运动网">登录新巴巴运动网</h2>
-		<form id="jvForm" action="../buyer/index.jsp" method="post">
-			<input type="hidden" name="returnUrl" value="${param.directUrl}"/>
+		<form id="jvForm" action="/user/userCheck/login.shtml" method="post">
+			<input type="hidden" name="returnUrl" value="${param.returnUrl}"/>
 			<ul class="uls form">
-			<li id="errorName" class="errorTip" style="display:none">${error}</li>
+			<li id="errorName" class="errorTip" <c:if test="${empty error }">style="display:none"</c:if>>${error}</li>
 			<li><label for="username">用户名：</label>
 				<span class="bg_text">
 					<input type="text" id="username" name="username" maxLength="100" />

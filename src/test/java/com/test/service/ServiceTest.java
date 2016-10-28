@@ -1,7 +1,9 @@
 package com.test.service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +16,7 @@ import com.bestseller.pojo.TestPojo;
 import com.bestseller.pojo.query.BrandQuery;
 import com.bestseller.service.BrandService;
 import com.bestseller.service.TestPojoService;
+import com.bestseller.service.staticPage.StaticPageService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:spring/applicationContext*.xml"})
@@ -45,5 +48,15 @@ public class ServiceTest {
 			System.out.println(brand);
 		}
 		
+	}
+	
+	@Autowired
+	private StaticPageService staticPageService;
+	@Test
+	public void test03(){
+		Map<String,Object> map=new HashMap<>();
+		map.put("hello", "世界你好!");
+		staticPageService.productStaticized(map, 123456);
+		System.out.println("生成完毕!");
 	}
 }

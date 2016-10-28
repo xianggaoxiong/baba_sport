@@ -4,7 +4,13 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
-	<context:component-scan base-package="com.bestseller.service"></context:component-scan>
-	<bean id="sessionProvider" class="com.bestseller.common.session.HttpSessionProvider"/>
-	<bean id="md5Service" class="com.bestseller.common.md5.Md5ServiceImpl"></bean>
+	<bean id="staticPageService" class="com.bestseller.service.staticPage.StaticPageServiceImpl">
+		<property name="freeMarkerConfigurer">
+			<bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+				<property name="templateLoaderPath" value="/WEB-INF/ftl/"></property>
+				<property name="defaultEncoding" value="UTF-8"></property>
+			</bean>
+		</property>
+	</bean>
+
 </beans>

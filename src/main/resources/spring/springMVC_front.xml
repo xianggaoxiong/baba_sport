@@ -22,6 +22,16 @@
 		<property name="maxUploadSize" value="5242880"></property>
 	</bean>
 	
-	<mvc:annotation-driven/>
-	<mvc:resources location="/WEB-INF/res/" mapping="/res/**"></mvc:resources>
+	<!-- <mvc:annotation-driven/>
+	<mvc:resources location="/WEB-INF/res/" mapping="/res/**"></mvc:resources> -->
+	
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<bean class="com.bestseller.interceptor.UserInterceptor"></bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
 </beans>
