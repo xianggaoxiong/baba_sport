@@ -19,6 +19,10 @@
 function login(){
 	window.location.href = "/user/userCheck/login.shtml?returnUrl="+window.location.href;
 }
+
+function myOrder(){
+	window.location.href="/buyer/index.shtml";
+}
 </script>
 </head>
 <body>

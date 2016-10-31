@@ -10,9 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bestseller.mapper.SkuMapper;
 import com.bestseller.pojo.Color;
+import com.bestseller.pojo.Product;
 import com.bestseller.pojo.Sku;
 import com.bestseller.pojo.query.SkuQuery;
 import com.bestseller.service.ColorService;
+import com.bestseller.service.ProductService;
 import com.bestseller.service.SkuService;
 
 import cn.itcast.common.page.Pagination;
@@ -30,6 +32,8 @@ public class SkuServiceImpl implements SkuService {
 	SkuMapper skuDao;
 	@Autowired
 	private ColorService colorService;
+	@Autowired
+	private ProductService productService;
 
 	/**
 	 * 插入数据库
@@ -45,7 +49,11 @@ public class SkuServiceImpl implements SkuService {
 	 */
 	@Transactional(readOnly = true)
 	public Sku getSkuByKey(Integer id) {
-		return skuDao.getSkuByKey(id);
+		Sku sku=skuDao.getSkuByKey(id);
+		Product product= productService.getProductByKey(sku.getProductId());
+		sku.setProduct(product);
+		sku.setColor(colorService.getColorByKey(sku.getColorId()));
+		return sku;
 	}
 	
 	@Transactional(readOnly = true)
