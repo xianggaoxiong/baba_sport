@@ -20,7 +20,6 @@ import com.bestseller.pojo.Type;
 import com.bestseller.pojo.query.BrandQuery;
 import com.bestseller.pojo.query.FeatureQuery;
 import com.bestseller.pojo.query.ProductQuery;
-import com.bestseller.pojo.query.SkuQuery;
 import com.bestseller.pojo.query.TypeQuery;
 import com.bestseller.service.BrandService;
 import com.bestseller.service.FeatureService;
