@@ -13,9 +13,14 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bestseller.common.Constant;
+import com.bestseller.common.session.SessionProvider;
+import com.bestseller.pojo.Addr;
 import com.bestseller.pojo.BuyCart;
+import com.bestseller.pojo.Buyer;
 import com.bestseller.pojo.ItemCart;
 import com.bestseller.pojo.Sku;
+import com.bestseller.pojo.query.AddrQuery;
+import com.bestseller.service.AddrService;
 import com.bestseller.service.SkuService;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +30,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class CartController {
 	@Autowired
 	private SkuService skuService;
-	
+	@Autowired
+	private SessionProvider sessionProvider;
+	@Autowired
+	private AddrService addrService;
 	@RequestMapping("/shopping/cart.shtml")
 	public String cart(Integer productId,Integer amount,Integer skuId,Integer skuLimit,
 			HttpServletRequest request,HttpServletResponse response,ModelMap model){
@@ -156,4 +164,77 @@ public class CartController {
 		
 		return "redirect:/shopping/cart.shtml";
 	}
+	
+	//订单结算页面
+	@RequestMapping("/buyer/productOrder.shtml")
+	public String productOrder(HttpServletRequest request,HttpServletResponse response,ModelMap model){
+		ObjectMapper om=new ObjectMapper();
+		om.setSerializationInclusion(Include.NON_NULL);
+		
+		BuyCart buyCart=null;
+		Cookie[] cookies = request.getCookies();
+		if(cookies!=null&&cookies.length>0){
+			for(Cookie cookie:cookies){
+				if(cookie.getName().equals(Constant.COOKIE_CART_NAME)){
+					try {
+						buyCart=om.readValue(cookie.getValue(), BuyCart.class);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					break;
+				}
+			}
+		}
+		
+		if(buyCart!=null){
+			List<ItemCart> itemCarts = buyCart.getItemCarts();
+			if(itemCarts!=null&&itemCarts.size()>0){
+				int i=itemCarts.size();
+				for(ItemCart itemCart:itemCarts){
+					Sku sku=skuService.getSkuByKey(itemCart.getSku().getId());
+					if(itemCart.getAmount()>sku.getStockInventory()){
+						buyCart.deleteItem(itemCart);
+					}
+				}
+				
+				int j=itemCarts.size();
+				if(i>j){
+					StringWriter sw=new StringWriter();
+					try {
+						om.writeValue(sw, buyCart);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					Cookie cookie=new Cookie(Constant.COOKIE_CART_NAME,sw.toString());
+					response.addCookie(cookie);
+					cookie.setMaxAge(60*60*24);
+					cookie.setPath("/");
+					return "redirect:/shopping/cart.shtml";
+				}else{
+					Buyer buyer=(Buyer) sessionProvider.getAttribute(request, Constant.SESSION_USER_NAME);
+					AddrQuery addrQuery=new AddrQuery();
+					addrQuery.setBuyerId(buyer.getUsername());
+					addrQuery.setIsDef(1);
+					List<Addr> addrs = addrService.getAddrList(addrQuery);
+					model.addAttribute("addr", addrs.get(0));
+					
+					List<ItemCart> itemCarts2 = buyCart.getItemCarts();
+					for(ItemCart itemCart:itemCarts2){
+						Sku skuByKey = skuService.getSkuByKey(itemCart.getSku().getId());
+						itemCart.setSku(skuByKey);
+					}
+					
+					model.addAttribute("buyCart", buyCart);
+					return "product/productOrder";
+				}
+				
+				
+			}else{
+				return "redirect:/shopping/cart.shtml";
+			}
+		}else{
+			return "redirect:/shopping/cart.shtml";
+		}
+	}
+	
 }

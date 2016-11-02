@@ -210,6 +210,9 @@
 	</select>
 	<!-- 添加 -->
 	<insert id="addOrder" parameterType="Order">
+		<selectKey keyProperty="id" order="AFTER" resultType="Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 		INSERT INTO bbs_order
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 				<if test="id != null">

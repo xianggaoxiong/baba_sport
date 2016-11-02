@@ -2,6 +2,7 @@ package com.bestseller.service;
 
 import java.util.List;
 
+import com.bestseller.pojo.BuyCart;
 import com.bestseller.pojo.Order;
 import com.bestseller.pojo.query.OrderQuery;
 
@@ -18,7 +19,7 @@ public interface OrderService {
 	 * 
 	 * @return
 	 */
-	public Integer addOrder(Order order);
+	public Integer addOrder(Order order,BuyCart buyCart);
 
 	/**
 	 * 根据主键查询

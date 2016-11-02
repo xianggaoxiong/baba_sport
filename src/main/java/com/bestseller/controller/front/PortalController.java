@@ -62,7 +62,7 @@ public class PortalController {
 							if(null!=buyered){
 								if(buyered.getPassword().equals(md5Service.md5Encrypt(buyer.getPassword()))){
 									sessionProvider.setAttribute(request, Constant.SESSION_USER_NAME, buyered);
-									if(StringUtils.isNotBlank(returnUrl)){
+									if(StringUtils.isNotBlank(returnUrl)&&!returnUrl.equals("null")){
 										return "redirect:"+returnUrl;
 									}else{
 										return "redirect:/buyer/index.shtml";
