@@ -5,8 +5,8 @@
 <title>jeecms-main</title>
 </head>
 <frameset cols="227,*" frameborder="0" border="0" framespacing="0">
-	<frame src="order_left.jsp" name="leftFrame" noresize="noresize" id="leftFrame" />
-	<frame src="../order/list.jsp" name="rightFrame" id="rightFrame" />
+	<frame src="/back/frame/order_left.do" name="leftFrame" noresize="noresize" id="leftFrame" />
+	<frame src="/back/order/list.do?isPaiy=0" name="rightFrame" id="rightFrame" />
 </frameset>
 <noframes><body></body></noframes>
 </html>
