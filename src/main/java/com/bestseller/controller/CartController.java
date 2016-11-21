@@ -211,7 +211,7 @@ public class CartController {
 					cookie.setPath("/");
 					return "redirect:/shopping/cart.shtml";
 				}else{
-					Buyer buyer=(Buyer) sessionProvider.getAttribute(request, Constant.SESSION_USER_NAME);
+					Buyer buyer=(Buyer) sessionProvider.getAttribute(response,request, Constant.SESSION_USER_NAME);
 					AddrQuery addrQuery=new AddrQuery();
 					addrQuery.setBuyerId(buyer.getUsername());
 					addrQuery.setIsDef(1);

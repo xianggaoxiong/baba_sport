@@ -5,6 +5,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
 	<context:component-scan base-package="com.bestseller.service"></context:component-scan>
-	<bean id="sessionProvider" class="com.bestseller.common.session.HttpSessionProvider"/>
+	<bean id="sessionProvider" class="com.bestseller.common.session.CacheSessionProvider">
+		<property name="expire" value="30"></property>
+	</bean>
 	<bean id="md5Service" class="com.bestseller.common.md5.Md5ServiceImpl"></bean>
 </beans>

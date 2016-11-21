@@ -17,7 +17,7 @@ public class UserInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		Buyer buyer=(Buyer) sessionProvider.getAttribute(request, Constant.SESSION_USER_NAME);
+		Buyer buyer=(Buyer) sessionProvider.getAttribute(response,request, Constant.SESSION_USER_NAME);
 		boolean flag=false;
 		if(buyer!=null){
 			flag=true;

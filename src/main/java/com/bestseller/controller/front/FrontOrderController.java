@@ -59,7 +59,7 @@ public class FrontOrderController {
 			itemCart.setSku(sku);
 		}
 		//填充订单用户
-		Buyer buyer=(Buyer) sessionProvider.getAttribute(request, Constant.SESSION_USER_NAME);
+		Buyer buyer=(Buyer) sessionProvider.getAttribute(response,request, Constant.SESSION_USER_NAME);
 		order.setBuyerId(buyer.getUsername());
 		orderService.addOrder(order,buyCart);
 		

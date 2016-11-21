@@ -32,6 +32,25 @@
 		<freemarker-version>2.3.9</freemarker-version>
 	</properties>
 		<dependencies>
+			<!-- memcached -->
+			<dependency>
+			    <groupId>com.google.code.maven-play-plugin.spy</groupId>
+			    <artifactId>memcached</artifactId>
+			    <version>2.4.2</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>com.danga</groupId>
+			    <artifactId>memcached</artifactId>
+			    <version>2.0.1</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>memcached-util</groupId>
+			    <artifactId>memcached</artifactId>
+			    <version>1.1</version>
+			</dependency>
+			
 			<dependency>
 				<groupId>commons-collections</groupId>
 				<artifactId>commons-collections</artifactId>

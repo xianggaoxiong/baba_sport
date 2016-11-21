@@ -53,15 +53,15 @@ public class PortalController {
 	}
 	
 	@RequestMapping(value="/user/userCheck/login.shtml",method=RequestMethod.POST)
-	public String login(Buyer buyer,String captcha,String returnUrl,ModelMap model,HttpServletRequest request){
+	public String login(Buyer buyer,String captcha,String returnUrl,ModelMap model,HttpServletRequest request,HttpServletResponse response){
 			if(StringUtils.isNotBlank(buyer.getUsername())){
 				if(StringUtils.isNotBlank(buyer.getPassword())){
 					if(StringUtils.isNotBlank(captcha)){
-						if(imgageCaptchaService.validateResponseForID(sessionProvider.getSessionId(request), captcha)){
+						if(imgageCaptchaService.validateResponseForID(sessionProvider.getSessionId(response,request), captcha)){
 							Buyer buyered = buyerService.getBuyerByKey(buyer.getUsername());
 							if(null!=buyered){
 								if(buyered.getPassword().equals(md5Service.md5Encrypt(buyer.getPassword()))){
-									sessionProvider.setAttribute(request, Constant.SESSION_USER_NAME, buyered);
+									sessionProvider.setAttribute(response,request, Constant.SESSION_USER_NAME, buyered);
 									if(StringUtils.isNotBlank(returnUrl)&&!returnUrl.equals("null")){
 										return "redirect:"+returnUrl;
 									}else{
@@ -99,8 +99,8 @@ public class PortalController {
 	
 	//个人资料
 	@RequestMapping("/buyer/profile.shtml")
-	public String profile(HttpServletRequest request,ModelMap model){
-		Buyer buyer=(Buyer) sessionProvider.getAttribute(request, Constant.SESSION_USER_NAME);
+	public String profile(HttpServletResponse response,HttpServletRequest request,ModelMap model){
+		Buyer buyer=(Buyer) sessionProvider.getAttribute(response,request, Constant.SESSION_USER_NAME);
 		Buyer b = buyerService.getBuyerByKey(buyer.getUsername());
 		model.addAttribute("buyer", b);
 		List<Province> provinces= provinceService.getProvinceList(null);
